@@ -1,0 +1,73 @@
+==============================================================================================================
+20DOF regenerated KAN surrogate all-candidate ranking consistency
+==============================================================================================================
+Project root                         : F:\stt\传感器优化
+Output dir                           : F:\stt\传感器优化\ranking_consistency_20dof_REGENERATED_FINAL
+Teacher source dir                   : F:\stt\传感器优化\ga_pc_vs_20dof_stage5_results
+Surrogate backend                    : torch_rbf_kan
+
+[Coverage]
+All possible 20DOF 4-sensor layouts  : 4845 / 4845
+PC-VS teacher/review known layouts   : 577 / 4845
+KAN surrogate scored layouts         : 4845 / 4845
+Train layouts                        : 368
+Validation layouts                   : 65
+Test layouts                         : 144
+Surrogate Top100 with PC-VS teacher  : 69 / 100
+PC-VS review plan size               : 400
+PC-VS review still needed            : 295
+
+Important note:
+  本脚本已经对全部 4845 个候选完成 KAN surrogate 快速评价。
+  PC-VS teacher/review 读取自本地已有20DOF复核结果；未覆盖的候选已写入 pcvs_review_needed_top100_random300.csv。
+  因此论文应写作：all-candidate surrogate screening + PC-VS-reviewed subset ranking consistency。
+  不能写成全部 4845 个候选均重新完成 PC-VS teacher 评价。
+
+[Rank correlation on all known PC-VS-reviewed layouts]
+Spearman fitness                     : 0.966797
+Kendall fitness                      : 0.850390
+Spearman -mean_NRMSE                 : 0.966797
+Kendall -mean_NRMSE                  : 0.850390
+
+[Rank correlation on held-out test PC-VS layouts]
+Spearman fitness test                : 0.923922
+Kendall fitness test                 : 0.771115
+Spearman -mean_NRMSE test            : 0.923922
+Kendall -mean_NRMSE test             : 0.771115
+
+[Top-1]
+Teacher Top1 known                   : DOF3-DOF8-DOF14-DOF19 | teacher_mean_nrmse=0.0524822 | surrogate_rank_known=6
+Surrogate Top1 within known          : DOF3-DOF8-DOF14-DOF18 | surrogate_pred_mean_nrmse=0.056602 | teacher_rank_known=2
+Surrogate Top1 all4845               : DOF3-DOF8-DOF14-DOF18 | surrogate_pred_mean_nrmse=0.0566019 | has_pcvs_teacher=True
+
+[Top-K overlap on all known PC-VS-reviewed layouts]
+  K  teacher_topK_count  surrogate_topK_count  overlap_count  overlap_rate
+  5                   5                     5              1          0.20
+ 10                  10                    10              4          0.40
+ 20                  20                    20             12          0.60
+ 50                  50                    50             39          0.78
+100                 100                   100             87          0.87
+
+[Top-K overlap on held-out test layouts]
+  K  teacher_topK_count  surrogate_topK_count  overlap_count  overlap_rate
+  5                   5                     5              3          0.60
+ 10                  10                    10              7          0.70
+ 20                  20                    20             15          0.75
+ 50                  50                    50             38          0.76
+100                 100                   100             94          0.94
+
+[Teacher-best recall in surrogate ranking, known set]
+       teacher_layout  teacher_rank_known  surrogate_rank_known  teacher_mean_nrmse  surrogate_pred_mean_nrmse  in_surrogate_top5  in_surrogate_top10  in_surrogate_top20  in_surrogate_top50  in_surrogate_top100
+DOF3-DOF8-DOF14-DOF19                   1                     6            0.052482                   0.058683              False                True                True                True                 True
+DOF3-DOF8-DOF14-DOF18                   2                     1            0.053666                   0.056602               True                True                True                True                 True
+DOF3-DOF8-DOF14-DOF20                   3                     9            0.054464                   0.060373              False                True                True                True                 True
+DOF3-DOF8-DOF13-DOF18                   4                    38            0.054513                   0.069384              False               False               False                True                 True
+DOF3-DOF8-DOF13-DOF19                   5                    17            0.055495                   0.064300              False               False                True                True                 True
+DOF2-DOF7-DOF13-DOF18                   6                    96            0.056317                   0.092717              False               False               False               False                 True
+DOF3-DOF9-DOF14-DOF19                   7                     3            0.056439                   0.057837               True                True                True                True                 True
+DOF3-DOF8-DOF12-DOF18                   8                    90            0.056509                   0.089650              False               False               False               False                 True
+DOF3-DOF9-DOF13-DOF19                   9                    36            0.056559                   0.068181              False               False               False                True                 True
+DOF2-DOF7-DOF13-DOF19                  10                    20            0.056637                   0.065244              False               False                True                True                 True
+
+[Paper-ready wording]
+为进一步检验代理模型用于候选布设快速筛选的可靠性，本文基于已有20DOF PC-VS teacher/review 结果重新训练 KAN/RBF surrogate，并对全部 C(20,4)=4845 个候选布设进行快速评价。随后，在具有 PC-VS 复核标签的候选集合上计算 Spearman、Kendall、Top-K overlap 和 teacher-best recall。该实验用于验证 KAN surrogate 的候选筛选能力；最终布设仍由 PC-VS Top-K review 复核确定，以避免代理模型局部排序误差直接影响最终决策。

@@ -1,0 +1,6 @@
+# Minimum packages referenced by the original scripts; versions are not pinned.
+numpy
+pandas
+scipy
+torch
+matplotlib
